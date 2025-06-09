@@ -10,7 +10,10 @@ const Cart = () => {
 
   const cartItems = useSelector((state) => state.cart.cart);
   const totalQty = cartItems.reduce((totalQty, item) => totalQty + item.qty, 0);
-  const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.price, 0);
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.qty * item.price,
+    0
+  );
 
   const navigate = useNavigate();
 
@@ -51,18 +54,30 @@ const Cart = () => {
 
         <div className="absolute bottom-0">
           <h3 className="font-semibold text-gray-600">Item : {totalQty}</h3>
-          <h3 className="font-semibold text-gray-600">Totle Amount : {totalPrice} </h3>
+          <h3 className="font-semibold text-gray-600">
+            Totle Amount : {totalPrice}{" "}
+          </h3>
           <hr className="w[90vw] lg:w-[18vw] mt-5" />
-          <button 
-          onClick={() => navigate("/success")}
-          className="w-[90vw] lg:w-[18vw] border-none text-xl bg-green-500 text-white h-[45px] rounded-lg mt-3 mb-5 cursor-pointer">
+
+          <button
+            onClick={() => {
+              if (cartItems.length > 0) {
+                navigate("/success");
+              }
+            }}
+            disabled = {cartItems.length === 0}
+            className={`w-[90vw] lg:w-[18vw] border-none text-xl h-[45px] text-white rounded-lg mt-3 mb-5 transition-all duration-300 
+              ${cartItems.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 cursor-pointer text-white"}`}
+          >
             Checkout
           </button>
         </div>
       </div>
       <FaCartShopping
         onClick={() => setActiveCart(!activeCart)}
-        className={`rounded-full bg-white shadow-md text-5xl p-3 fixed bottom-3 right-1 cursor-pointer text-pink-800 ${totalQty  > 0 && "animate-bounce delay-500 transition-all"}`}
+        className={`rounded-full bg-white shadow-md text-5xl p-3 fixed bottom-3 right-1 cursor-pointer text-pink-800 ${
+          totalQty > 0 && "animate-bounce delay-500 transition-all"
+        }`}
       />
     </>
   );
