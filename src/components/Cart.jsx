@@ -62,7 +62,7 @@ const Cart = () => {
           <button
             onClick={() => {
               if (cartItems.length > 0) {
-                navigate("/success");
+                navigate("/success", {state: {amount:totalPrice}});
               }
             }}
             disabled = {cartItems.length === 0}
